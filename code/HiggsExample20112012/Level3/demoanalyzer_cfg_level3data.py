@@ -24,7 +24,7 @@ process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 # set the number of events to be skipped (if any) at end of file below
 
 # define JSON file for 2012 data
-goodJSON = '../datasets/Cert_190456-208686_8TeV_22Jan2013ReReco_Collisions12_JSON.txt'
+goodJSON = '../../../inputs/Cert_190456-208686_8TeV_22Jan2013ReReco_Collisions12_JSON.txt'
 
 myLumis = LumiList.LumiList(filename = goodJSON).getCMSSWString().split(',')
 
@@ -34,7 +34,7 @@ myLumis = LumiList.LumiList(filename = goodJSON).getCMSSWString().split(',')
 import FWCore.Utilities.FileUtils as FileUtils
 #
 # ********************************************************************
-# load the data set                                                  * 
+# load the data set                                                  *
 # this example uses one subset of the relevant 2012 DoubleMu dataset *
 # ********************************************************************
 #
@@ -42,8 +42,8 @@ import FWCore.Utilities.FileUtils as FileUtils
 # *** DoubleMuParked2012C_10000 data set (many million events) ***
 #files2012data = FileUtils.loadListFromFile ('/home/cms-opendata/CMSSW_5_3_32/src/Demo/DemoAnalyzer/datasets/CMS_Run2012C_DoubleMuParked_AOD_22Jan2013-v1_10000_file_index.txt')
 #process.source = cms.Source("PoolSource",
-#    fileNames = cms.untracked.vstring(*files2012data    
-#    )    
+#    fileNames = cms.untracked.vstring(*files2012data
+#    )
 #)
 #
 # to speed up, pick single example file with 1 nice 2mu2e Higgs candidate
@@ -51,7 +51,7 @@ import FWCore.Utilities.FileUtils as FileUtils
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
          'root://eospublic.cern.ch//eos/opendata/cms/Run2012C/DoubleMuParked/AOD/22Jan2013-v1/10000/F2878994-766C-E211-8693-E0CB4EA0A939.root'
-    )    
+    )
 )
 
 # apply JSON file
@@ -72,7 +72,7 @@ process.demo = cms.EDAnalyzer('HiggsDemoAnalyzerGit'
 # default is DoubleMuParked2012C_10000_Higgs.root           *
 # ***********************************************************
 process.TFileService = cms.Service("TFileService",
-       fileName = cms.string('DoubleMuParked2012C_10000_Higgs.root')
+       fileName = cms.string('../../../outputs/DoubleMuParked2012C_10000_Higgs.root')
                                    )
 
 process.p = cms.Path(process.demo)

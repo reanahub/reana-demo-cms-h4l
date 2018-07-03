@@ -24,7 +24,7 @@ process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 # set the number of events to be skipped (if any) at end of file below
 
 # define JSON file for 2012 data (not needed for MC)
-#goodJSON = '/home/cms-opendata/CMSSW_5_3_32/src/Demo/DemoAnalyzer/datasets/Cert_190456-208686_8TeV_22Jan2013ReReco_Collisions12_JSON.txt'
+#goodJSON = '../../../inputs/Cert_190456-208686_8TeV_22Jan2013ReReco_Collisions12_JSON.txt'
 
 #myLumis = LumiList.LumiList(filename = goodJSON).getCMSSWString().split(',')
 
@@ -34,21 +34,21 @@ process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 import FWCore.Utilities.FileUtils as FileUtils
 #
 # ********************************************************************
-# load the data set                                                  * 
+# load the data set                                                  *
 # this example uses the 2012 Higgs->4lepton simulated dataset        *
 # ********************************************************************
 #
 # *** 2012 Higgs->4lepton simulated data set (299973 events) ***
 #files2012data = FileUtils.loadListFromFile ('/home/cms-opendata/CMSSW_5_3_32/src/Demo/DemoAnalyzer/MCsets/CMS_MonteCarlo2012_Summer12_DR53X_SMHiggsToZZTo4L_M-125_8TeV-powheg15-JHUgenV3-pythia6_AODSIM_PU_S10_START53_V19-v1_10000_file_index.txt')
 #process.source = cms.Source("PoolSource",
-#    fileNames = cms.untracked.vstring(*files2012data    
+#    fileNames = cms.untracked.vstring(*files2012data
 #    )
 #)
 #
 # to speed up, read only first file with 7499 events
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-        'root://eospublic.cern.ch//eos/opendata/cms/MonteCarlo2012/Summer12_DR53X/SMHiggsToZZTo4L_M-125_8TeV-powheg15-JHUgenV3-pythia6/AODSIM/PU_S10_START53_V19-v1/10000/029D759D-6CD9-E211-B3E2-1CC1DE041FD8.root'    
+        'root://eospublic.cern.ch//eos/opendata/cms/MonteCarlo2012/Summer12_DR53X/SMHiggsToZZTo4L_M-125_8TeV-powheg15-JHUgenV3-pythia6/AODSIM/PU_S10_START53_V19-v1/10000/029D759D-6CD9-E211-B3E2-1CC1DE041FD8.root'
     )
 )
 
@@ -70,7 +70,7 @@ process.demo = cms.EDAnalyzer('HiggsDemoAnalyzerGit'
 # default is Higgs4L1file.root                              *
 # ***********************************************************
 process.TFileService = cms.Service("TFileService",
-       fileName = cms.string('Higgs4L1file.root')
+       fileName = cms.string('../../../outputs/Higgs4L1file.root')
                                    )
 
 process.p = cms.Path(process.demo)
