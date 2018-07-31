@@ -36,7 +36,7 @@ The analysis takes the following inputs:
 
   - ``Cert_190456-208686_8TeV_22Jan2013ReReco_Collisions12_JSON.txt``
 
-- a set of official CMS data files in the `ROOT <https://root.cern.ch/>`_ format
+- a set of data files in the `ROOT <https://root.cern.ch/>`_ format, processed from CMS public datasets,
   included in the ``inputs`` directory:
 
   - ``DoubleE11.root``
@@ -196,13 +196,16 @@ Running the example on REANA cloud
 Contributors
 ============
 
-The list of contributors to this REANA example and the `original open data
-analysis <http://opendata.cern.ch/record/5500>`_ in alphabetical order:
+This example is based o the `original open data
+analysis <http://opendata.cern.ch/record/5500>`_ (Jomhari, Nur Zulaiha; Geiser, Achim; Bin Anuar, Afiq Aizuddin; (2017). 
+Higgs-to-four-lepton analysis example using 2011-2012 data. 
+CERN Open Data Portal. DOI:10.7483/OPENDATA.CMS.JKB8.RR42)
 
-- Achim Geiser <geiser@mail.desy.de>
-- Afiq Aizuddin Anuar <afiq.aizuddin.anuar@desy.de>
+The list of contributors to this REANA example in alphabetical order:
+
+
 - `Clemens Lange <https://orcid.org/0000-0002-3632-3157>`_ <clemens.lange@cern.ch>
 - `Freya Blekman <https://orcid.org/0000-0002-7366-7098>`_ <freya.blekman@cern.ch>
-- `Kati Lassila-Perini <https://orcid.org/0000-0002-5502-1795>`_ <k.lassila-perini@cern.ch>
+- `Diyaselis Delgado Lopez`_ <diyaselis.delgado.lopez@cern.ch>
 - `Nur Zulaiha Jomhari <https://orcid.org/0000-0001-9127-7408>`_ <nur.zulaiha.jomhari@desy.de>
 - `Tibor Simko <https://orcid.org/0000-0001-7202-5803>`_ <tibor.simko@cern.ch>
