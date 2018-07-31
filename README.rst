@@ -138,7 +138,7 @@ and its individual steps:
 
 The example produces a plot showing the Higgs signal:
 
-.. figure:: https://raw.githubusercontent.com/reanahub/reana-demo-root6-roofit/master/docs/mass4l_combine_userlvl3.png
+.. figure:: https://raw.githubusercontent.com/reanahub/reana-demo-cms-h4l/master/docs/mass4l_combine_userlvl3.png
    :alt: mass4l_combine_userlvl3.png
    :align: center
 
