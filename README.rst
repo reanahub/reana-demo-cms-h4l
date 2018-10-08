@@ -191,8 +191,6 @@ Using CWL:
 Running the example on REANA cloud
 ==================================
 
-**FIXME** 
-
 We start by creating a `reana.yaml <reana.yaml>`_ file describing the above analysis structure with its inputs, code, runtime environment, computational workflow steps and expected outputs:
 
 .. code-block:: yaml
