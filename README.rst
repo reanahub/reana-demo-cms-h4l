@@ -188,6 +188,39 @@ Using CWL:
 
     $ cwltool --outdir=./outputs ./workflow/workflow.cwl ./workflow/input.yaml
 
+Create REANA file
+=================
+Putting all together, we can now describe our Higgs to 4 lepton physics analysis
+example, its runtime environment, the inputs, the code, the workflow and its
+outputs by means of the following REANA specification file:
+
+.. code-block:: yaml
+version: 0.2.0
+metadata: 
+  authors:
+   - Diyaselis Delgado Lopez <diyaselis.delgado@upr.edu>
+  title: Higgs to 4 lepton physics analysis example
+  date: 22 September 2018
+  repository: https://github.com/reanahub/reana-demo-cms-h4l/
+code: 
+  files:
+  - code/HiggsExample20112012/HiggsDemoAnalyzer/src/HiggsDemoAnalyzerGit.cc
+  - code/HiggsExample20112012/Level3/demoanalyzer_cfg_level3data.py
+  - code/HiggsExample20112012/Level3/demoanalyzer_cfg_level3MC.py 
+  - code/HiggsExample20112012/Level3/M4Lnormdatall_lvl3.cc 
+inputs:
+  parameters:
+     input: workflow/input.yaml
+outputs:
+  files:
+   - outputs/mass4l_combine_userlvl3.pdf
+environments:
+  - type: docker
+    image: clelange/cmssw:5_3_32
+workflow: 
+  type: cwl
+  file: workflow/workflow.cwl
+
 Running the example on REANA cloud
 ==================================
 
