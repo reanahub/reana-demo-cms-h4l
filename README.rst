@@ -227,6 +227,21 @@ Running the example on REANA cloud
 
 **FIXME**
 
+We can now install the REANA client and submit this analysis example
+to run on some particular REANA cloud instance. We start by installing the
+client:
+
+.. code-block:: console
+
+    $ mkvirtualenv reana-client -p /usr/bin/python2.7
+    $ pip install reana-client
+
+and connect to the REANA cloud instance where we will run this example:
+
+.. code-block:: console
+
+    $ export REANA_SERVER_URL=http://reana-qa.cern.ch/
+
 Contributors
 ============
 
