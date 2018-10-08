@@ -212,7 +212,7 @@ We start by creating a `reana.yaml <reana.yaml>`_ file describing the above anal
       image: clelange/cmssw:5_3_32
     outputs:
       files:
-       - outputs/mass4l_combine_userlvl3.pdf
+       - results/mass4l_combine_userlvl3.pdf
 
 We can now install the REANA command-line client, run the analysis and download the resulting plots:
 
@@ -228,7 +228,7 @@ We can now install the REANA command-line client, run the analysis and download 
     $ reana-client create -n my-analysis
     $ export REANA_WORKON=my-analysis
     $ # upload input code and data to the workspace:
-    $ reana-client upload ./code ./inputs
+    $ reana-client upload ./code ./data
     $ # start computational workflow:
     $ reana-client start
     $ # ... should be finished in about a minute:
@@ -236,7 +236,7 @@ We can now install the REANA command-line client, run the analysis and download 
     $ # list workspace files:
     $ reana-client list
     $ # download output results:
-    $ reana-client download outputs/mass4l_combine_userlvl3.pdf
+    $ reana-client download results/mass4l_combine_userlvl3.pdf
 
 Please see the `REANA-Client <https://reana-client.readthedocs.io/>`_
 documentation for more detailed explanation of typical ``reana-client`` usage
