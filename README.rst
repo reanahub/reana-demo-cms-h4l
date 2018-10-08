@@ -196,65 +196,31 @@ outputs by means of the following REANA specification file:
 
 .. code-block:: yaml
    
-    version: 0.2.0
-    metadata: 
-      authors:
-       - Diyaselis Delgado Lopez <diyaselis.delgado@upr.edu>
-      title: Higgs to 4 lepton physics analysis example
-      date: 22 September 2018
-      repository: https://github.com/reanahub/reana-demo-cms-h4l/
-    code: 
+    version: 0.3.0
+    inputs: 
       files:
       - code/HiggsExample20112012/HiggsDemoAnalyzer/src/HiggsDemoAnalyzerGit.cc
       - code/HiggsExample20112012/Level3/demoanalyzer_cfg_level3data.py
       - code/HiggsExample20112012/Level3/demoanalyzer_cfg_level3MC.py 
       - code/HiggsExample20112012/Level3/M4Lnormdatall_lvl3.cc 
-    inputs:
       parameters:
          input: workflow/input.yaml
+    workflow:
+      type: cwl
+      file: workflow/workflow.cwl
+      specification:
+        steps:
+          - environment:
+            - type: docker
+            image: clelange/cmssw:5_3_32
     outputs:
       files:
        - outputs/mass4l_combine_userlvl3.pdf
-    environments:
-      - type: docker
-        image: clelange/cmssw:5_3_32
-    workflow: 
-      type: cwl
-      file: workflow/workflow.cwl
 
 Running the example on REANA cloud
 ==================================
 
-**FIXME**
-
-We can now install the REANA client and submit this analysis example
-to run on some particular REANA cloud instance. We start by installing the
-client:
-
-.. code-block:: console
-
-    $ mkvirtualenv reana-client -p /usr/bin/python2.7
-    $ pip install reana-client
-
-and connect to the REANA cloud instance where we will run this example. You 
-also have to provide a valid access token through the environment variable 
-REANA_ACCESS_TOKEN. For example:
-
-.. code-block:: console
-
-    $ export REANA_SERVER_URL=http://reana-qa.cern.ch/
-    $ export REANA_ACCESS_TOKEN=XXXXXXX
-
-The access token should have been given to you by the administrators 
-of the REANA cloud instance you are using.
-
-Let us start by testing connection to the REANA cloud:
-
-.. code-block:: console
-
-    $ reana-client ping
-    Server is running.
-    
+**FIXME**    
     
     
 Contributors
