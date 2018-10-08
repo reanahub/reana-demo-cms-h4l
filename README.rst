@@ -205,6 +205,6 @@ data", CERN Open Data Portal, 2017. DOI: `10.7483/OPENDATA.CMS.JKB8.RR42
 The list of contributors to this REANA example in alphabetical order:
 
 
-- `Clemens Lange <https://orcid.org/0000-0002-3632-3157>`_ <clemens.lange@cern.ch>
-- Diyaselis Delgado Lopez <diyaselis.delgado.lopez@cern.ch>
-- `Tibor Simko <https://orcid.org/0000-0001-7202-5803>`_ <tibor.simko@cern.ch>
+- `Clemens Lange <https://orcid.org/0000-0002-3632-3157>`_
+- `Diyaselis Delgado Lopez <https://orcid.org/0000-0002-4306-8828>`_
+- `Tibor Simko <https://orcid.org/0000-0001-7202-5803>`_
