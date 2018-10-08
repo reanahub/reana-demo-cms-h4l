@@ -15,4 +15,4 @@ environments:
   image: clelange/cmssw:5_3_32
 outputs:
   files:
-   - outputs/mass4l_combine_userlvl3.pdf
+   - results/mass4l_combine_userlvl3.pdf
