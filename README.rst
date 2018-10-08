@@ -209,11 +209,9 @@ We start by creating a `reana.yaml <reana.yaml>`_ file describing the above anal
     workflow:
       type: cwl
       file: workflow/workflow.cwl
-      specification:
-        steps:
-          - environment:
-            - type: docker
-            image: clelange/cmssw:5_3_32
+    environments:
+      - type: docker
+      image: clelange/cmssw:5_3_32
     outputs:
       files:
        - outputs/mass4l_combine_userlvl3.pdf
