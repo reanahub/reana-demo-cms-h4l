@@ -249,6 +249,7 @@ The access token should have been given to you by the administrators
 of the REANA cloud instance you are using.
 
 Let us start by testing connection to the REANA cloud:
+
 .. code-block:: console
 
     $ reana-client ping
