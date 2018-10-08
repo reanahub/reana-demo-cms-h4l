@@ -194,7 +194,7 @@ Putting all together, we can now describe our Higgs to 4 lepton physics analysis
 example, its runtime environment, the inputs, the code, the workflow and its
 outputs by means of the following REANA specification file:
 
-.. code-block:: yaml
+.. code-block:: console
 version: 0.2.0
 metadata: 
   authors:
