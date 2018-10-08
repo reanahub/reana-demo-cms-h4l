@@ -236,12 +236,26 @@ client:
     $ mkvirtualenv reana-client -p /usr/bin/python2.7
     $ pip install reana-client
 
-and connect to the REANA cloud instance where we will run this example:
+and connect to the REANA cloud instance where we will run this example. You 
+also have to provide a valid access token through the environment variable 
+REANA_ACCESS_TOKEN. For example:
 
 .. code-block:: console
 
     $ export REANA_SERVER_URL=http://reana-qa.cern.ch/
+    $ export REANA_ACCESS_TOKEN=XXXXXXX
 
+The access token should have been given to you by the administrators 
+of the REANA cloud instance you are using.
+
+Let us start by testing connection to the REANA cloud:
+.. code-block:: console
+
+    $ reana-client ping
+    Server is running.
+    
+    
+    
 Contributors
 ============
 
