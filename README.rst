@@ -188,11 +188,12 @@ Using CWL:
 
     $ cwltool --outdir=./outputs ./workflow/workflow.cwl ./workflow/input.yaml
 
-Create REANA file
-=================
-Putting all together, we can now describe our Higgs to 4 lepton physics analysis
-example, its runtime environment, the inputs, the code, the workflow and its
-outputs by means of the following REANA specification file:
+Running the example on REANA cloud
+==================================
+
+**FIXME** 
+
+We start by creating a `reana.yaml <reana.yaml>`_ file describing the above analysis structure with its inputs, code, runtime environment, computational workflow steps and expected outputs:
 
 .. code-block:: yaml
    
@@ -217,11 +218,6 @@ outputs by means of the following REANA specification file:
       files:
        - outputs/mass4l_combine_userlvl3.pdf
 
-Running the example on REANA cloud
-==================================
-
-**FIXME**    
-    
     
 Contributors
 ============
