@@ -1,0 +1,18 @@
+version: 0.3.0
+inputs: 
+  files:
+  - code/HiggsExample20112012/HiggsDemoAnalyzer/src/HiggsDemoAnalyzerGit.cc
+  - code/HiggsExample20112012/Level3/demoanalyzer_cfg_level3data.py
+  - code/HiggsExample20112012/Level3/demoanalyzer_cfg_level3MC.py 
+  - code/HiggsExample20112012/Level3/M4Lnormdatall_lvl3.cc 
+  parameters:
+     input: workflow/input.yaml
+workflow:
+  type: cwl
+  file: workflow/workflow.cwl
+environments:
+  - type: docker
+  image: clelange/cmssw:5_3_32
+outputs:
+  files:
+   - results/mass4l_combine_userlvl3.pdf

@@ -191,8 +191,57 @@ Using CWL:
 Running the example on REANA cloud
 ==================================
 
-**FIXME**
+We start by creating a `reana.yaml <reana.yaml>`_ file describing the above analysis structure with its inputs, code, runtime environment, computational workflow steps and expected outputs:
 
+.. code-block:: yaml
+   
+    version: 0.3.0
+    inputs: 
+      files:
+      - code/HiggsExample20112012/HiggsDemoAnalyzer/src/HiggsDemoAnalyzerGit.cc
+      - code/HiggsExample20112012/Level3/demoanalyzer_cfg_level3data.py
+      - code/HiggsExample20112012/Level3/demoanalyzer_cfg_level3MC.py 
+      - code/HiggsExample20112012/Level3/M4Lnormdatall_lvl3.cc 
+      parameters:
+         input: workflow/input.yaml
+    workflow:
+      type: cwl
+      file: workflow/workflow.cwl
+    environments:
+      - type: docker
+      image: clelange/cmssw:5_3_32
+    outputs:
+      files:
+       - results/mass4l_combine_userlvl3.pdf
+
+We can now install the REANA command-line client, run the analysis and download the resulting plots:
+
+.. code-block:: console
+
+    $ # install REANA client:
+    $ mkvirtualenv reana-client
+    $ pip install reana-client
+    $ # connect to some REANA cloud instance:
+    $ export REANA_SERVER_URL=https://reana.cern.ch/
+    $ export REANA_ACCESS_TOKEN=XXXXXXX
+    $ # create new workflow:
+    $ reana-client create -n my-analysis
+    $ export REANA_WORKON=my-analysis
+    $ # upload input code and data to the workspace:
+    $ reana-client upload ./code ./data
+    $ # start computational workflow:
+    $ reana-client start
+    $ # ... should be finished in about a minute:
+    $ reana-client status
+    $ # list workspace files:
+    $ reana-client list
+    $ # download output results:
+    $ reana-client download results/mass4l_combine_userlvl3.pdf
+
+Please see the `REANA-Client <https://reana-client.readthedocs.io/>`_
+documentation for more detailed explanation of typical ``reana-client`` usage
+scenarios.
+    
 Contributors
 ============
 
@@ -205,6 +254,6 @@ data", CERN Open Data Portal, 2017. DOI: `10.7483/OPENDATA.CMS.JKB8.RR42
 The list of contributors to this REANA example in alphabetical order:
 
 
-- `Clemens Lange <https://orcid.org/0000-0002-3632-3157>`_ <clemens.lange@cern.ch>
-- Diyaselis Delgado Lopez <diyaselis.delgado.lopez@cern.ch>
-- `Tibor Simko <https://orcid.org/0000-0001-7202-5803>`_ <tibor.simko@cern.ch>
+- `Clemens Lange <https://orcid.org/0000-0002-3632-3157>`_
+- `Diyaselis Delgado Lopez <https://orcid.org/0000-0002-4306-8828>`_
+- `Tibor Simko <https://orcid.org/0000-0001-7202-5803>`_
