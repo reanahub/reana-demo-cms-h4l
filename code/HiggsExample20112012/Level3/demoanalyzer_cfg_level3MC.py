@@ -24,7 +24,7 @@ process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 # set the number of events to be skipped (if any) at end of file below
 
 # define JSON file for 2012 data (not needed for MC)
-#goodJSON = '../../../inputs/Cert_190456-208686_8TeV_22Jan2013ReReco_Collisions12_JSON.txt'
+#goodJSON = '../../../../inputs/Cert_190456-208686_8TeV_22Jan2013ReReco_Collisions12_JSON.txt'
 
 #myLumis = LumiList.LumiList(filename = goodJSON).getCMSSWString().split(',')
 
@@ -70,7 +70,7 @@ process.demo = cms.EDAnalyzer('HiggsDemoAnalyzerGit'
 # default is Higgs4L1file.root                              *
 # ***********************************************************
 process.TFileService = cms.Service("TFileService",
-       fileName = cms.string('../../../outputs/Higgs4L1file.root')
+       fileName = cms.string('../../../../outputs/Higgs4L1file.root')
                                    )
 
 process.p = cms.Path(process.demo)

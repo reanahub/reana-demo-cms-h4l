@@ -1,6 +1,6 @@
 inputs:
   class: Directory
-  path: ../inputs
+  path: inputs
 code:
   class: Directory
-  path: ../code
+  path: code

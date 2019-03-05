@@ -186,7 +186,8 @@ Using CWL:
 
 .. code-block:: console
 
-    $ cwltool --outdir=./outputs ./workflow/workflow.cwl ./workflow/input.yaml
+    $ cp ./workflow/input.yaml .
+    $ cwltool --outdir=./outputs ./workflow/workflow.cwl ./input.yaml
 
 Running the example on REANA cloud
 ==================================

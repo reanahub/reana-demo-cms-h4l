@@ -1,0 +1,13 @@
+version: 0.6.0
+inputs:
+  parameters:
+    input: workflow/input.yaml
+  directories:
+    - inputs
+    - code
+outputs:
+  files:
+   - outputs/mass4l_combine_userlvl3.pdf
+workflow:
+  type: cwl
+  file: workflow/workflow.cwl
