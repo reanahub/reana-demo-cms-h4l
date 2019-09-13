@@ -39,9 +39,9 @@ void M4Lnormdatall_lvl3() {
   TH1::SetDefaultSumw2(kTRUE);
 
   // Input file directory
-  string inDir = "../../../../inputs/";
+  string inDir = "../../../../data/";
   // Output file directory
-  string outDir = "../../../../outputs/";
+  string outDir = "../../../../results/";
 
   // Name of the input file for MC
   string inFileZZ4mu12 = "ZZ4mu12.root";
