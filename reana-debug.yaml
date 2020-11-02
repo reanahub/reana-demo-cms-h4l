@@ -2,7 +2,7 @@ version: 0.6.0
 
 inputs:
   files:
-    - inputs
+    - data
     - code
 
 workflow:
@@ -10,7 +10,7 @@ workflow:
   specification:
     steps:
       - name: analyse_data
-        environment: 'cmsopendata/cmssw_5_3_32'
+        environment: cmsopendata/cmssw_5_3_32
         commands:
           - >
               source /opt/cms/cmsset_default.sh
