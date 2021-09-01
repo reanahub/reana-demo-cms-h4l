@@ -181,6 +181,11 @@ and its individual steps:
 - `process simulated data <workflow/analyse_mc.cwl>`_
 - `produce final plot <workflow/make_plot.cwl>`_
 
+Note that we can also use the Snakemake workflow specification (see 
+`reana-snakemake.yaml <reana-snakemake.yaml>`_):
+
+- `workflow definition <workflow/snakemake/Snakefile>`_
+
 
 5. Output results
 -----------------

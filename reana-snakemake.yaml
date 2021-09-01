@@ -1,13 +1,14 @@
 version: 0.8.0
 inputs:
-  files:
+  parameters:
+    input: workflow/snakemake/input.yaml
+  directories:
     - code
     - data
-  directories:
     - workflow/snakemake
-workflow:
-  type: snakemake
-  file: workflow/snakemake/Snakefile
 outputs:
   files:
     - results/mass4l_combine_userlvl3.pdf
+workflow:
+  type: snakemake
+  file: workflow/snakemake/Snakefile

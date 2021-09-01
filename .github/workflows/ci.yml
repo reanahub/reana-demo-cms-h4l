@@ -26,4 +26,4 @@ jobs:
           pip install reana-client
 
       - name: Validate workflow specification file
-        run: reana-client validate | grep -q ' is a valid '
+        run: reana-client validate | grep "Valid REANA specification" > /dev/null

@@ -9,6 +9,7 @@
 #   $ pip install snakemake
 #   $ cp -a ../code ../data .
 #   $ snakemake -s ../workflow/snakemake/Snakefile -p --cores 4 --use-singularity
+#           --configfile ../workflow/snakemake/input.yaml
 
 
 rule all:
@@ -17,8 +18,8 @@ rule all:
 
 rule scram:
     input:
-        "data",
-        "code"
+        config["data"],
+        config["code"]
     output:
         touch("results/scramdone.txt")
     container:
@@ -36,8 +37,8 @@ rule scram:
 
 rule analyze_data:
     input:
-        "code",
-        "data",
+        config["data"],
+        config["code"],
         "results/scramdone.txt"
     output:
         "results/DoubleMuParked2012C_10000_Higgs.root"
@@ -53,8 +54,8 @@ rule analyze_data:
 
 rule analyze_mc:
     input:
-        "code",
-        "data",
+        config["data"],
+        config["code"],
         "results/scramdone.txt"
     output:
         "results/Higgs4L1file.root"
@@ -70,8 +71,8 @@ rule analyze_mc:
 
 rule make_plot:
     input:
-        "code",
-        "data",
+        config["data"],
+        config["code"],
         "results/DoubleMuParked2012C_10000_Higgs.root",
         "results/Higgs4L1file.root"
     output:
