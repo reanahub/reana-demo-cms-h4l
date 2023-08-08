@@ -142,7 +142,7 @@ preparing a `Docker <https://www.docker.com/>`_ container image for our analysis
 steps.
 
 This analysis example runs within the `CMSSW <http://cms-sw.github.io/>`_
-analysis framework that was packaged for Docker in `cmsopendata/cmssw_5_3_32
+analysis framework that was packaged for Docker in `docker.io/cmsopendata/cmssw_5_3_32
 <https://hub.docker.com/r/cmsopendata/cmssw_5_3_32/>`_.
 
 4. Analysis workflow
@@ -184,7 +184,7 @@ and its individual steps:
 - `process simulated data <workflow/analyse_mc.cwl>`_
 - `produce final plot <workflow/make_plot.cwl>`_
 
-Note that we can also use the Snakemake workflow specification (see 
+Note that we can also use the Snakemake workflow specification (see
 `reana-snakemake.yaml <reana-snakemake.yaml>`_):
 
 - `workflow definition <workflow/snakemake/Snakefile>`_
@@ -246,7 +246,7 @@ have setup also a serial workflow as follows:
       specification:
         steps:
           - name: analyse_data
-            environment: 'cmsopendata/cmssw_5_3_32'
+            environment: 'docker.io/cmsopendata/cmssw_5_3_32'
             commands:
               - >
                   source /opt/cms/cmsset_default.sh

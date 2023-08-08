@@ -6,7 +6,7 @@ baseCommand: /bin/zsh
 requirements:
   DockerRequirement:
     dockerPull:
-      cmsopendata/cmssw_5_3_32
+      docker.io/cmsopendata/cmssw_5_3_32
   InitialWorkDirRequirement:
     listing:
       - $(inputs.code)
