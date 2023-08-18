@@ -99,13 +99,15 @@ statistical overlap."(See Ref. `1 <http://opendata.web.cern.ch/record/5500>`_).
 2. Analysis code
 ----------------
 
-The analysis will consist of two stages. In the first stage, we shall process
+The analysis will consist of three stages. In the first stage, we shall build
+the analysis code plugin for the `CMSSW <http://cms-sw.github.io/>`_ analysis
+framework, contained in the ``HiggsDemoAnalyzer`` directory, using
+`SCRAM <https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideScram>`_, the official
+CMS software build and management tool. In the second stage, we shall process
 the original collision data (using `demoanalyzer_cfg_level3data.py <https://github.com/reanahub/reana-demo-cms-h4l/blob/master/code/HiggsExample20112012/Level3/demoanalyzer_cfg_level3data.py>`_
 ) and simulated data (using `demoanalyzer_cfg_level3MC.py <https://github.com/reanahub/reana-demo-cms-h4l/blob/master/code/HiggsExample20112012/Level3/demoanalyzer_cfg_level3MC.py>`_
-) for one Higgs signal candidate with with reduced statistics. In the second
-stage, we shall plot the results (using `M4Lnormdatall_lvl3.cc <https://github.com/reanahub/reana-demo-cms-h4l/blob/master/code/HiggsExample20112012/Level3/M4Lnormdatall_lvl3.cc>`_
-). The ``HiggsDemoAnalyzer`` directory contains the analysis code plugin for
-the `CMSSW <http://cms-sw.github.io/>`_ analysis framework.
+) for one Higgs signal candidate with with reduced statistics. In the third
+and final stage, we shall plot the results (using `M4Lnormdatall_lvl3.cc <https://github.com/reanahub/reana-demo-cms-h4l/blob/master/code/HiggsExample20112012/Level3/M4Lnormdatall_lvl3.cc>`_).
 
 "The provided analysis code recodes the spirit of the original analysis and
 recodes many of the original cuts on original data objects, but does not
@@ -148,11 +150,17 @@ analysis framework that was packaged for Docker in `docker.io/cmsopendata/cmssw_
 4. Analysis workflow
 --------------------
 
-The analysis workflow is simple and consists of two above-mentioned stages:
+The analysis workflow is simple and consists of three above-mentioned stages:
 
 .. code-block:: console
 
                               START
+                                |
+                                |
+                                V
+                  +-------------------------+
+                  |           SCRAM         |
+                  +-------------------------+
                              /     \
                             /       \
                            /         \
@@ -170,13 +178,86 @@ The analysis workflow is simple and consists of two above-mentioned stages:
                              V
                             STOP
 
-There is a serial workflow that does the steps sequentially, but this demo
-represents a better use case for workflow tools capable of parallel execution.
-
+The steps processing collision data and simulated data can be run in parallel.
 We shall use the `Snakemake <https://snakemake.readthedocs.io/en/stable/>`_ workflow specification
-to express the computational workflow:
+to express the computational workflow by means of the following Snakefile:
 
-- `workflow definition <workflow/Snakefile>`_
+.. code-block:: python
+
+    rule all:
+        input:
+            "results/mass4l_combine_userlvl3.pdf"
+
+    rule scram:
+        input:
+            config["data"],
+            config["code"]
+        output:
+            touch("results/scramdone.txt")
+        container:
+            "docker://docker.io/cmsopendata/cmssw_5_3_32"
+        shell:
+            "source /opt/cms/cmsset_default.sh "
+            "&& scramv1 project CMSSW CMSSW_5_3_32 "
+            "&& cd CMSSW_5_3_32/src "
+            "&& eval `scramv1 runtime -sh` "
+            "&& cp -r ../../code/HiggsExample20112012 . "
+            "&& cd HiggsExample20112012/HiggsDemoAnalyzer "
+            "&& scram b "
+            "&& cd ../Level3 "
+            "&& mkdir -p ../../../../results "
+
+    rule analyze_data:
+        input:
+            config["data"],
+            config["code"],
+            "results/scramdone.txt"
+        output:
+            "results/DoubleMuParked2012C_10000_Higgs.root"
+        container:
+            "docker://docker.io/cmsopendata/cmssw_5_3_32"
+        shell:
+            "source /opt/cms/cmsset_default.sh "
+            "&& cd CMSSW_5_3_32/src "
+            "&& eval `scramv1 runtime -sh` "
+            "&& cd HiggsExample20112012/HiggsDemoAnalyzer "
+            "&& cd ../Level3 "
+            "&& cmsRun demoanalyzer_cfg_level3data.py"
+
+    rule analyze_mc:
+        input:
+            config["data"],
+            config["code"],
+            "results/scramdone.txt"
+        output:
+            "results/Higgs4L1file.root"
+        container:
+            "docker://docker.io/cmsopendata/cmssw_5_3_32"
+        shell:
+            "source /opt/cms/cmsset_default.sh "
+            "&& cd CMSSW_5_3_32/src "
+            "&& eval `scramv1 runtime -sh` "
+            "&& cd HiggsExample20112012/HiggsDemoAnalyzer "
+            "&& cd ../Level3 "
+            "&& cmsRun demoanalyzer_cfg_level3MC.py"
+
+    rule make_plot:
+        input:
+            config["data"],
+            config["code"],
+            "results/DoubleMuParked2012C_10000_Higgs.root",
+            "results/Higgs4L1file.root"
+        output:
+            "results/mass4l_combine_userlvl3.pdf"
+        container:
+            "docker://docker.io/cmsopendata/cmssw_5_3_32"
+        shell:
+            "source /opt/cms/cmsset_default.sh "
+            "&& cd CMSSW_5_3_32/src "
+            "&& eval `scramv1 runtime -sh` "
+            "&& cd HiggsExample20112012/HiggsDemoAnalyzer "
+            "&& cd ../Level3 "
+            "&& root -b -l -q ./M4Lnormdatall_lvl3.cc"
 
 
 5. Output results
@@ -218,43 +299,6 @@ We start by creating a `reana.yaml <reana.yaml>`_ file describing the above
 analysis structure with its inputs, code, runtime environment, computational
 workflow steps and expected outputs. In this example we are using the Snakemake
 workflow specification, which you can find in the `workflow <workflow>`_ directory.
-
-At the same time, for easy debugging purposes, we
-have setup also a serial workflow as follows:
-
-.. code-block:: yaml
-
-    version: 0.6.0
-    inputs:
-      files:
-        - inputs
-        - code
-
-    workflow:
-      type: serial
-      specification:
-        steps:
-          - name: analyse_data
-            environment: 'docker.io/cmsopendata/cmssw_5_3_32'
-            commands:
-              - >
-                  source /opt/cms/cmsset_default.sh
-                  && scramv1 project CMSSW CMSSW_5_3_32
-                  && cd CMSSW_5_3_32/src
-                  && eval `scramv1 runtime -sh`
-                  && cp -r ../../code/HiggsExample20112012 .
-                  && cd HiggsExample20112012/HiggsDemoAnalyzer
-                  && scram b
-                  && cd ../Level3
-                  && mkdir -p ../../../../results
-                  && cmsRun demoanalyzer_cfg_level3data.py
-                  && cmsRun demoanalyzer_cfg_level3MC.py
-                  && root -b -l -q ./M4Lnormdatall_lvl3.cc
-
-    outputs:
-      files:
-        - results/mass4l_combine_userlvl3.pdf
-
 
 
 We can now install the REANA command-line client, run the analysis and download
