@@ -1,6 +1,2 @@
-data:
-  class: Directory
-  path: data
-code:
-  class: Directory
-  path: code
+data: data
+code: code

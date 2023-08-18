@@ -12,7 +12,7 @@
    :target: https://github.com/reanahub/reana-demo-cms-h4l/blob/master/LICENSE
 
 .. image:: https://www.reana.io/static/img/badges/launch-on-reana-at-cern.svg
-   :target: https://reana.cern.ch/launch?url=https%3A%2F%2Fgithub.com%2Freanahub%2Freana-demo-cms-h4l&name=reana-demo-cms-h4l&specification=reana-snakemake.yaml
+   :target: https://reana.cern.ch/launch?url=https%3A%2F%2Fgithub.com%2Freanahub%2Freana-demo-cms-h4l&name=reana-demo-cms-h4l&specification=reana.yaml
 
 About
 =====
@@ -173,21 +173,10 @@ The analysis workflow is simple and consists of two above-mentioned stages:
 There is a serial workflow that does the steps sequentially, but this demo
 represents a better use case for workflow tools capable of parallel execution.
 
-We shall use the `CWL <http://www.commonwl.org/v1.0/>`_ workflow specification
+We shall use the `Snakemake <https://snakemake.readthedocs.io/en/stable/>`_ workflow specification
 to express the computational workflow:
 
-- `workflow definition <workflow/workflow.cwl>`_
-
-and its individual steps:
-
-- `process collision data <workflow/analyse_data.cwl>`_
-- `process simulated data <workflow/analyse_mc.cwl>`_
-- `produce final plot <workflow/make_plot.cwl>`_
-
-Note that we can also use the Snakemake workflow specification (see
-`reana-snakemake.yaml <reana-snakemake.yaml>`_):
-
-- `workflow definition <workflow/snakemake/Snakefile>`_
+- `workflow definition <workflow/Snakefile>`_
 
 
 5. Output results
@@ -217,7 +206,7 @@ the following badge:
 
 .. raw:: html
 
-   <a href="https://reana.cern.ch/launch?url=https%3A%2F%2Fgithub.com%2Freanahub%2Freana-demo-cms-h4l&name=reana-demo-cms-h4l&specification=reana-snakemake.yaml">
+   <a href="https://reana.cern.ch/launch?url=https%3A%2F%2Fgithub.com%2Freanahub%2Freana-demo-cms-h4l&name=reana-demo-cms-h4l&specification=reana.yaml">
     <img src="https://www.reana.io/static/img/badges/launch-on-reana-at-cern.svg" />
    </a>
    <p></p>
@@ -227,10 +216,10 @@ client to launch this analysis example, please read on.
 
 We start by creating a `reana.yaml <reana.yaml>`_ file describing the above
 analysis structure with its inputs, code, runtime environment, computational
-workflow steps and expected outputs. In this example we are using the CWL
-workflow specification, with its steps in the `workflow <workflow>`_ directory.
+workflow steps and expected outputs. In this example we are using the Snakemake
+workflow specification, which you can find in the `workflow <workflow>`_ directory.
 
-At the same time, for easy debugging purposes (to avoid the *cwl* overhead), we
+At the same time, for easy debugging purposes, we
 have setup also a serial workflow as follows:
 
 .. code-block:: yaml
@@ -314,4 +303,5 @@ The list of contributors to this REANA example in alphabetical order:
 - `Clemens Lange <https://orcid.org/0000-0002-3632-3157>`_
 - `Daniel Prelipcean <https://orcid.org/0000-0002-4855-194X>`_
 - `Diyaselis Delgado Lopez <https://orcid.org/0000-0001-9643-9322>`_
+- `Giuseppe Steduto <https://orcid.org/0009-0002-1258-8553>`_
 - `Tibor Simko <https://orcid.org/0000-0001-7202-5803>`_

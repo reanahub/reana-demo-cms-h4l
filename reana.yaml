@@ -1,13 +1,14 @@
-version: 0.6.0
+version: 0.8.0
 inputs:
   parameters:
     input: workflow/input.yaml
   directories:
     - code
     - data
+    - workflow
 outputs:
   files:
-    - outputs/mass4l_combine_userlvl3.pdf
+    - results/mass4l_combine_userlvl3.pdf
 workflow:
-  type: cwl
-  file: workflow/workflow.cwl
+  type: snakemake
+  file: workflow/Snakefile
