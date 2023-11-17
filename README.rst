@@ -300,6 +300,22 @@ analysis structure with its inputs, code, runtime environment, computational
 workflow steps and expected outputs. In this example we are using the Snakemake
 workflow specification, which you can find in the `workflow <workflow>`_ directory.
 
+.. code-block:: yaml
+
+    version: 0.8.0
+    inputs:
+      parameters:
+        input: workflow/input.yaml
+      directories:
+        - code
+        - data
+        - workflow
+    outputs:
+      files:
+        - results/mass4l_combine_userlvl3.pdf
+    workflow:
+      type: snakemake
+      file: workflow/Snakefile
 
 We can now install the REANA command-line client, run the analysis and download
 the resulting plots:
@@ -321,10 +337,11 @@ the resulting plots:
     $ reana-client upload
     $ # start computational workflow
     $ reana-client start
-    $ # ... should be finished in a couple (~5) of minutes
+    $ # ... should be finished in a couple of minutes
+    $ # check its status
     $ reana-client status
     $ # list workspace files
-    $ reana-client list
+    $ reana-client ls
     $ # download output results
     $ reana-client download
 
