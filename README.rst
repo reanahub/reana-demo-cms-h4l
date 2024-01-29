@@ -348,21 +348,3 @@ the resulting plots:
 Please see the `REANA-Client <https://reana-client.readthedocs.io/>`_
 documentation for more detailed explanation of typical ``reana-client`` usage
 scenarios.
-
-
-Contributors
-============
-
-This example is based on the `original open data analysis
-<http://opendata.cern.ch/record/5500>`_ by Jomhari, Nur Zulaiha; Geiser, Achim;
-Bin Anuar, Afiq Aizuddin, "Higgs-to-four-lepton analysis example using 2011-2012
-data", CERN Open Data Portal, 2017. DOI: `10.7483/OPENDATA.CMS.JKB8.RR42
-<https://doi.org/10.7483/OPENDATA.CMS.JKB8.RR42>`_
-
-The list of contributors to this REANA example in alphabetical order:
-
-- `Clemens Lange <https://orcid.org/0000-0002-3632-3157>`_
-- `Daniel Prelipcean <https://orcid.org/0000-0002-4855-194X>`_
-- `Diyaselis Delgado Lopez <https://orcid.org/0000-0001-9643-9322>`_
-- `Giuseppe Steduto <https://orcid.org/0009-0002-1258-8553>`_
-- `Tibor Simko <https://orcid.org/0000-0001-7202-5803>`_
