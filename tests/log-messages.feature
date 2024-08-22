@@ -23,7 +23,7 @@ Feature: Log messages
             """
         And the engine logs should contain
             """
-            reana-workflow-engine-snakemake | Thread-1 | INFO | scram job is finished
+            reana-workflow-engine-snakemake | MainThread | INFO | scram job is finished
             """
 
     Scenario: The data analysis step has produced the expected messages
@@ -45,14 +45,14 @@ Feature: Log messages
             TrigReport  Trig Bit#        Run     Passed     Failed      Error Name
             TrigReport     1    0       9058       9058          0          0 p
             """
-        And the engine logs should contain "reana-workflow-engine-snakemake | Thread-1 | INFO | analyze_data job is finished"
+        And the engine logs should contain "reana-workflow-engine-snakemake | MainThread | INFO | analyze_data job is finished"
 
     Scenario: The montecarlo analysis step has produced the expected messages
         When the workflow is finished
         Then the engine logs should contain "reana-workflow-engine-snakemake | MainThread | INFO | Job 'analyze_mc' received"
         And the job logs for the "analyze_mc" step should contain
             """
-            Successfully opened file root://eospublic.cern.ch//eos/opendata/cms/MonteCarlo2012/Summer12_DR53X/SMHiggsToZZTo4L_M-125_8TeV-powheg15-JHUgenV3-pythia6/AODSIM/PU_S10_START53_V19-v1/10000/029D759D-6CD9-E211-B3E2-1CC1DE041FD8.root"
+            Successfully opened file root://eospublic.cern.ch//eos/opendata/cms/MonteCarlo2012/Summer12_DR53X/SMHiggsToZZTo4L_M-125_8TeV-powheg15-JHUgenV3-pythia6/AODSIM/PU_S10_START53_V19-v1/10000/029D759D-6CD9-E211-B3E2-1CC1DE041FD8.root
             """
         And the job logs for the "analyze_mc" step should contain
             """
@@ -63,7 +63,7 @@ Feature: Log messages
             TrigReport  Trig Bit#        Run     Passed     Failed      Error Name
             TrigReport     1    0       7499       7499          0          0 p
             """
-        And the engine logs should contain "reana-workflow-engine-snakemake | Thread-1 | INFO | analyze_mc job is finished"
+        And the engine logs should contain "reana-workflow-engine-snakemake | MainThread | INFO | analyze_mc job is finished"
 
     Scenario: The data plotting step has produced the expected messages
         When the workflow is finished
@@ -75,7 +75,7 @@ Feature: Log messages
             """
             pdf file ../../../../results/mass4l_combine_userlvl3.pdf has been created
             """
-        And the engine logs should contain "reana-workflow-engine-snakemake | Thread-1 | INFO | make_plot job is finished"
+        And the engine logs should contain "reana-workflow-engine-snakemake | MainThread | INFO | make_plot job is finished"
 
     Scenario: The workflow completion has produced the expected messages
         When the workflow is finished
