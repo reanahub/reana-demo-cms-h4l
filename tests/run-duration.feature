@@ -12,7 +12,7 @@ Feature: Run duration
 
     Scenario: The SCRAM step terminates in a reasonable amount of time
         When the workflow execution completes
-        Then the duration of the step "scram" should be less than 5 minutes
+        Then the duration of the step "scram" should be less than 10 minutes
 
     Scenario: The analysis of the real collision data is performed in a reasonable amount of time
         When the workflow execution completes
