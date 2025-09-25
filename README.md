@@ -3,7 +3,7 @@
 [![image](https://github.com/reanahub/reana-demo-cms-h4l/workflows/CI/badge.svg)](https://github.com/reanahub/reana-demo-cms-h4l/actions)
 [![image](https://img.shields.io/badge/discourse-forum-blue.svg)](https://forum.reana.io)
 [![image](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/reanahub/reana-demo-cms-h4l/blob/master/LICENSE)
-[![image](https://www.reana.io/static/img/badges/launch-on-reana-at-cern.svg)](https://reana.cern.ch/launch?url=https%3A%2F%2Fgithub.com%2Freanahub%2Freana-demo-cms-h4l&name=reana-demo-cms-h4l&specification=reana.yaml)
+[![image](https://www.reana.io/static/img/badges/launch-on-reana-at-cern.svg)](https://localhost:30443/launch?url=https%3A%2F%2Fgithub.com%2Freanahub%2Freana-demo-cms-h4l%2Ftree%2Feosc-demo&name=reana-demo-cms-h4l&specification=reana.yaml)
 
 ## About
 
@@ -253,7 +253,7 @@ There are two ways to execute this analysis example on REANA.
 If you would like to simply launch this analysis example on the REANA instance at CERN
 and inspect its results using the web interface, please click on the following badge:
 
-[![image](https://www.reana.io/static/img/badges/launch-on-reana-at-cern.svg)](https://reana.cern.ch/launch?url=https%3A%2F%2Fgithub.com%2Freanahub%2Freana-demo-cms-h4l&name=reana-demo-cms-h4l&specification=reana.yaml)
+[![image](https://www.reana.io/static/img/badges/launch-on-reana-at-cern.svg)](https://localhost:30443/launch?url=https%3A%2F%2Fgithub.com%2Freanahub%2Freana-demo-cms-h4l%2Ftree%2Feosc-demo&name=reana-demo-cms-h4l&specification=reana.yaml)
 
 If you would like a step-by-step guide on how to use the REANA command-line client to
 launch this analysis example, please read on.
