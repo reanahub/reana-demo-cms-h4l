@@ -8,7 +8,7 @@ Feature: Log messages
 
     Scenario: The workflow start has produced the expected messages
         When the workflow is finished
-        Then the engine logs should contain "WARNING | Building DAG of jobs..."
+        Then the engine logs should contain "INFO | Building DAG of jobs..."
 
     Scenario: The SCRAM step has produced the expected messages
         When the workflow is finished
