@@ -59,7 +59,7 @@ jobs:
 
       - name: Install Python dependencies
         run: |
-          pip install --upgrade pip
+          pip install --upgrade 'setuptools<81'
           pip install reana-client
 
       - name: Validate workflow specification file
