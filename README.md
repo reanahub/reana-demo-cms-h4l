@@ -32,23 +32,21 @@ The analysis takes the following inputs:
   - `Cert_190456-208686_8TeV_22Jan2013ReReco_Collisions12_JSON.txt`
 
 - a set of data files in the [ROOT](https://root.cern.ch/) format, processed
-from CMS public datasets, included in the `data` directory: - `DoubleE11.root` -
-`DoubleE12.root` - `DoubleMu11.root` - `DoubleMu12.root` - `DY1011.root` -
-`DY1012.root` - `DY101Jets12.root` - `DY50Mag12.root` - `DY50TuneZ11.root` -
-`DY50TuneZ12.root` - `DYTo2mu12.root` - `HZZ11.root` - `HZZ12.root` -
-`TTBar11.root` - `TTBar12.root` - `TTJets11.root` - `TTJets12.root` -
-`ZZ2mu2e11.root` - `ZZ2mu2e12.root` - `ZZ4e11.root` - `ZZ4e12.root` -
-`ZZ4mu11.root` - `ZZ4mu12.root`
+  from CMS public datasets, included in the `data` directory: -
+  `DoubleE11.root` - `DoubleE12.root` - `DoubleMu11.root` - `DoubleMu12.root` -
+  `DY1011.root` - `DY1012.root` - `DY101Jets12.root` - `DY50Mag12.root` -
+  `DY50TuneZ11.root` - `DY50TuneZ12.root` - `DYTo2mu12.root` - `HZZ11.root` -
+  `HZZ12.root` - `TTBar11.root` - `TTBar12.root` - `TTJets11.root` -
+  `TTJets12.root` - `ZZ2mu2e11.root` - `ZZ2mu2e12.root` - `ZZ4e11.root` -
+  `ZZ4e12.root` - `ZZ4mu11.root` - `ZZ4mu12.root`
 
 - CMS collision data from 2011 and 2012 accessed "live" during analysis via
   [CERN Open Data](http://opendata.cern.ch/) portal:
--
-[/DoubleMuParked/Run2012C-22Jan2013-v1/AOD](http://opendata.cern.ch/record/6030)
+- [/DoubleMuParked/Run2012C-22Jan2013-v1/AOD](http://opendata.cern.ch/record/6030)
 
 - CMS simulated data from 2011 and 2012 accessed "live" during analysis via
   [CERN Open Data](http://opendata.cern.ch/) portal:
--
-[/SMHiggsToZZTo4L_M-125_8TeV-powheg15-JHUgenV3-pythia6/Summer12_DR53X-PU_S10_START53_V19-v1/AODSIM](http://opendata.cern.ch/record/9356)
+- [/SMHiggsToZZTo4L_M-125_8TeV-powheg15-JHUgenV3-pythia6/Summer12_DR53X-PU_S10_START53_V19-v1/AODSIM](http://opendata.cern.ch/record/9356)
 
 "The example uses legacy versions of the original CMS data sets in the CMS AOD,
 which slightly differ from the ones used for the publication due to improved
