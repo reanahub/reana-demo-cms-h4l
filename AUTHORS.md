@@ -14,6 +14,8 @@ The list of contributors in alphabetical order:
 - [Tibor Simko](https://orcid.org/0000-0001-7202-5803)
 - [Vladyslav Moisieienkov](https://orcid.org/0000-0001-9717-0775)
 
-This example is based on the [original open data analysis](http://opendata.cern.ch/record/5500) by Jomhari, Nur Zulaiha; Geiser, Achim;
-Bin Anuar, Afiq Aizuddin, "Higgs-to-four-lepton analysis example using 2011-2012
-data", CERN Open Data Portal, 2017. DOI: [10.7483/OPENDATA.CMS.JKB8.RR42](https://doi.org/10.7483/OPENDATA.CMS.JKB8.RR42)
+This example is based on the [original open data
+analysis](http://opendata.cern.ch/record/5500) by Jomhari, Nur Zulaiha; Geiser,
+Achim; Bin Anuar, Afiq Aizuddin, "Higgs-to-four-lepton analysis example using
+2011-2012 data", CERN Open Data Portal, 2017. DOI:
+[10.7483/OPENDATA.CMS.JKB8.RR42](https://doi.org/10.7483/OPENDATA.CMS.JKB8.RR42)

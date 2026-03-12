@@ -1,5 +1,5 @@
 # This file is part of REANA.
-# Copyright (C) 2020, 2021, 2023, 2024, 2026 CERN.
+# Copyright (C) 2020, 2021, 2024, 2026 CERN.
 #
 # REANA is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -9,8 +9,26 @@ name: ci
 on: [push, pull_request]
 
 jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-format-shfmt:
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+
+      - name: Install Python dependencies
+        run: |
+          pip install --upgrade 'setuptools<81'
+          pip install reana-client
+
+      - name: Validate workflow specification file
+        run: reana-client validate | grep "Valid REANA specification" > /dev/null
+
+  format-shfmt:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
@@ -47,6 +65,20 @@ format-shfmt:
         run: |
           ./run-tests.sh --lint-commitlint ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} ${{ github.event.pull_request.number }}
 
+  lint-markdownlint:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+
+      - name: Lint Markdown files
+        run: |
+          npm install markdownlint-cli2 --global
+          ./run-tests.sh --lint-markdownlint
+
   lint-shellcheck:
     runs-on: ubuntu-24.04
     steps:
@@ -58,32 +90,11 @@ format-shfmt:
           sudo apt-get install shellcheck
           ./run-tests.sh --lint-shellcheck
 
-  build:
+  lint-yamllint:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: 3.12
-
-      - name: Install Python dependencies
-        run: |
-          pip install --upgrade 'setuptools<81'
-          pip install reana-client
-
-      - name: Validate workflow specification file
-        run: reana-client validate | grep "Valid REANA specification" > /dev/null
-
-lint-yamllint:
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Setup Python
         uses: actions/setup-python@v5
