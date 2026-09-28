@@ -15,6 +15,13 @@ of the original CMS Higgs to four lepton analysis published in Phys.Lett. B716
 (2012) 30-61, arXiv:1207.7235." (See Ref.
 [1](http://opendata.cern.ch/record/5500)).
 
+This repository also carries a **full-statistics variant** of the same
+analysis, running over every file of all six collision datasets rather than
+over a single file. It is an addition: `reana.yaml` and
+[workflow/Snakefile](workflow/Snakefile) described below remain the example
+this repository is built around. See [Full-statistics
+variant](#full-statistics-variant) at the end.
+
 ## Analysis structure
 
 Making a research data analysis reproducible basically means to provide
@@ -306,3 +313,43 @@ $ reana-client download
 Please see the [REANA-Client](https://reana-client.readthedocs.io/)
 documentation for more detailed explanation of typical `reana-client` usage
 scenarios.
+
+## Full-statistics variant
+
+The example above runs over one AOD file, which finds a single Higgs candidate
+and draws it as one marker on top of pre-made simulation histograms. The
+full-statistics variant instead processes **every file of all six CMS collision
+datasets** -- 12 306 AOD files, roughly 43 TB read over XRootD -- so the
+observed data becomes a full histogram and the result approaches the published
+reference plot.
+
+| Dataset                                     | recid | Files |
+| ------------------------------------------- | ----- | ----- |
+| `/DoubleMu/Run2011A-12Oct2013-v1/AOD`       | 17    | 1378  |
+| `/DoubleElectron/Run2011A-12Oct2013-v1/AOD` | 16    | 1697  |
+| `/DoubleMuParked/Run2012B-22Jan2013-v1/AOD` | 6004  | 2279  |
+| `/DoubleMuParked/Run2012C-22Jan2013-v1/AOD` | 6030  | 2920  |
+| `/DoubleElectron/Run2012B-22Jan2013-v1/AOD` | 6003  | 1643  |
+| `/DoubleElectron/Run2012C-22Jan2013-v1/AOD` | 6029  | 2389  |
+
+It lives in its own specification so that nothing about the example above
+changes:
+
+```console
+$ reana-client create -n level4 --file reana-level4.yaml
+$ export REANA_WORKON=level4
+$ reana-client upload
+$ reana-client start
+```
+
+The files of each dataset are split into chunks of at most 320 files, 43 chunks
+in total, and one job processes one chunk. Expect hours rather than minutes.
+[LEVEL4.md](LEVEL4.md) covers how the chunk lists are built, how to monitor a
+long run, how to recover from a failed chunk, and what the recorded runs
+measured.
+
+Note that only the collision data is computed here. The simulated backgrounds
+and signal are still taken as ready-made histograms from [data](data), as
+shipped with [CERN Open Data record 5500](http://opendata.cern.ch/record/5500),
+whereas the example above does compute one simulated sample of its own.
+Processing the simulated datasets at full statistics remains open.
