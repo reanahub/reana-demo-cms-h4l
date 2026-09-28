@@ -1,0 +1,21 @@
+# Same smoke test as reana_htcondor_smoke.yaml but with a one-megabyte image
+# instead of the CMSSW one on cvmfs. Running both tells apart the two reasons
+# a trivial HTCondor job can hang forever: if this one succeeds while the
+# cvmfs variant hangs, the image reference is at fault; if both hang, the
+# account cannot get jobs through the farm and no workflow change will help.
+version: 0.8.0
+outputs:
+  files:
+    - results/smoke.txt
+workflow:
+  type: serial
+  specification:
+    steps:
+      - name: smoke
+        environment: "docker.io/library/busybox"
+        compute_backend: htcondorcern
+        htcondor_max_runtime: "espresso"
+        commands:
+          - mkdir -p results && { hostname; date; id; echo "--- cvmfs ---"; ls
+            /cvmfs/ || echo "no cvmfs in this container"; } 2>&1 | tee
+            results/smoke.txt

@@ -1,0 +1,27 @@
+# The working hello world example with a /cvmfs/unpacked.cern.ch/... image
+# instead of the Docker Hub one, plus the `unpacked_img: true` hint that such
+# an image requires. Everything else -- inputs, command, step name, backend --
+# is identical to the run that finishes normally.
+#
+# Every earlier job of ours that used a /cvmfs/ image hung in `running` forever
+# with no logs. The cause was the missing `unpacked_img` hint: without it REANA
+# does not run the image through `singularity exec` and the job never starts.
+# This test confirms the hint is the fix. Run reana_htcondor_helloworld.yaml
+# (Docker Hub, no hint) alongside it as the passing baseline.
+version: 0.8.0
+inputs:
+  files:
+    - helloworld.py
+outputs:
+  files:
+    - results/greetings.txt
+workflow:
+  type: serial
+  specification:
+    steps:
+      - name: reana_demo_helloworld_htcondorcern
+        environment: "/cvmfs/unpacked.cern.ch/registry.hub.docker.com/cmsopendata/cmssw_5_3_32:latest"
+        compute_backend: htcondorcern
+        unpacked_img: true
+        commands:
+          - mkdir -p results && python helloworld.py | tee results/greetings.txt

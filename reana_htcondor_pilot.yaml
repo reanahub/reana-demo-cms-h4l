@@ -1,0 +1,44 @@
+# Minimal probe of the CERN HTCondor backend before launching the 43 real
+# analyze_chunk jobs. Runs the exact same CMSSW steps as an analyze_chunk job
+# but over a single AOD file, so that HTCondor-specific unknowns (Kerberos
+# auth, container image handling on a condor node, XRootD reach to EOS from
+# outside the Kubernetes cluster) surface in about a minute instead of after
+# four hours. Needs CERN_USER/CERN_KEYTAB uploaded via `reana-client secrets-add`.
+version: 0.8.0
+inputs:
+  directories:
+    - code
+    - data
+  files:
+    - workflow/calibration_file.txt
+outputs:
+  files:
+    - results/htcondor_pilot_timing.txt
+workflow:
+  type: serial
+  specification:
+    steps:
+      - name: htcondor_pilot
+        environment: "/cvmfs/unpacked.cern.ch/registry.hub.docker.com/cmsopendata/cmssw_5_3_32:latest"
+        compute_backend: htcondorcern
+        # Required for a /cvmfs/unpacked.cern.ch/... image: run it through
+        # `singularity exec` instead of the HTCondor Docker Universe. Without
+        # it the job hangs in `running` with no logs.
+        unpacked_img: true
+        htcondor_max_runtime: "longlunch"
+        commands:
+          - source /opt/cms/cmsset_default.sh && scramv1 project CMSSW
+            CMSSW_5_3_32 && cd CMSSW_5_3_32/src && eval `scramv1 runtime -sh` &&
+            cp -r ../../code/HiggsExample20112012 . && cd
+            HiggsExample20112012/HiggsDemoAnalyzer && scram b && cd ../Level4 &&
+            mkdir -p ../../../../results && cp
+            ../../../../workflow/calibration_file.txt this_chunk_index.txt &&
+            sed -e
+            's|/home/cms-opendata/CMSSW_5_3_32/src/Demo/DemoAnalyzer/datasets/CMS_Run2012C_DoubleMuParked_AOD_22Jan2013-v1_10000_file_index.txt|this_chunk_index.txt|'
+            -e
+            's|/home/cms-opendata/CMSSW_5_3_32/src/Demo/DemoAnalyzer/datasets/Cert_190456-208686_8TeV_22Jan2013ReReco_Collisions12_JSON.txt|../../../../data/Cert_190456-208686_8TeV_22Jan2013ReReco_Collisions12_JSON.txt|'
+            -e "s|'HiggsDemoAnalyzer'|'HiggsDemoAnalyzerGit'|"
+            demoanalyzer_cfg_level4data.py > demoanalyzer_cfg_pilot.py &&
+            START=$$(date +%s) && cmsRun demoanalyzer_cfg_pilot.py &&
+            END=$$(date +%s) && echo "DURATION_SECONDS=$$((END-START))" | tee
+            ../../../../results/htcondor_pilot_timing.txt

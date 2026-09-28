@@ -1,0 +1,30 @@
+# The same staged diagnostic as reana_htcondor_diagnose.yaml, but taking the
+# CMSSW image from cvmfs instead of Docker Hub.
+#
+# On Docker Hub the job never starts: the image ships an entrypoint that cds
+# into CMSSW_5_3_32/src before running the given command, while HTCondor puts
+# job_wrapper.sh at the root of the scratch directory, so the entrypoint looks
+# for it in the wrong place and reports it missing. REANA runs unpacked cvmfs
+# images through Singularity, which ignores an image entrypoint, so the wrapper
+# should be found. This checks whether that is what actually happens.
+version: 0.8.0
+inputs:
+  files:
+    - htcondor_diagnose.sh
+  directories:
+    - code
+outputs:
+  files:
+    - results/diagnose.txt
+workflow:
+  type: serial
+  specification:
+    steps:
+      - name: diagnose
+        environment: "/cvmfs/unpacked.cern.ch/registry.hub.docker.com/cmsopendata/cmssw_5_3_32:latest"
+        compute_backend: htcondorcern
+        # Run the unpacked image through `singularity exec`; also makes
+        # Singularity ignore the CMSSW entrypoint.
+        unpacked_img: true
+        commands:
+          - bash htcondor_diagnose.sh

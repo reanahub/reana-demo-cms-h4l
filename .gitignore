@@ -3,3 +3,8 @@
 # Workflow outputs and the CMSSW build area
 results/
 CMSSW_5_3_32/
+
+# HTCondor job outputs, logs and staged chunk files
+condor_out/
+condor_logs/
+chunk__*.root
