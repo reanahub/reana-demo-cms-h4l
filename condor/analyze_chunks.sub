@@ -1,0 +1,58 @@
+# Submit all 43 analyze_chunk jobs to CERN HTCondor, with no Snakemake
+# dispatcher supervising them. Run from the repository root:
+#
+#   mkdir -p condor_out condor_logs
+#   condor_submit condor/analyze_chunks.sub
+#
+# To submit a subset -- one chunk to prove the setup, or the ones that
+# failed -- point chunklist at another file with the same format. It can't
+# be done by appending a second `queue`: condor_submit refuses two.
+#
+#   condor_submit condor/analyze_chunks.sub -append 'chunklist = condor/one.txt'
+#
+# Then log out freely. Collect the results later with
+# condor/collect_chunks.sh and run the short merge/combine/plot steps
+# locally. See HTCONDOR_DIRECT.md.
+
+chunklist = condor/chunks.txt
+
+universe     = vanilla
+executable   = condor/chunk_job.sh
+arguments    = $(dataset) $(chunk_id)
+
+# Self-contained: the analyser source, both validation JSONs and this chunk's
+# file list are shipped in, and the AOD files themselves are read over XRootD
+# from eospublic, which is public. Nothing is read from AFS, so no Kerberos
+# credential has to stay valid for the job to survive -- a credential lapsing
+# is what removed the previous attempt six hours in.
+should_transfer_files    = YES
+when_to_transfer_output  = ON_EXIT
+transfer_input_files     = code, \
+                           data/Cert_160404-180252_7TeV_ReRecoNov08_Collisions11_JSON.txt, \
+                           data/Cert_190456-208686_8TeV_22Jan2013ReReco_Collisions12_JSON.txt, \
+                           workflow/chunk_lists/$(dataset)/$(chunk_id).txt
+
+# Only new files at the top level of the scratch directory come back, so the
+# job writes one flat file and the remap files it into condor_out/ here.
+# HTCondor does not create the directory: mkdir it before submitting.
+transfer_output_files    = chunk__$(dataset)__$(chunk_id).root
+transfer_output_remaps   = "chunk__$(dataset)__$(chunk_id).root = condor_out/chunk__$(dataset)__$(chunk_id).root"
+
+# A chunk is 320 files at roughly a minute each. The pool's default flavour is
+# espresso, 20 minutes, which would kill every one of these.
++JobFlavour = "tomorrow"
+
+request_cpus   = 1
+request_memory = 8GB
+request_disk   = 16GB
+
+# The REANA run needed 8Gi after one chunk was OOM-killed at 4Gi; the same
+# margin applies here. Retries cover transient node and transfer trouble, not
+# a chunk that genuinely fails.
+max_retries = 2
+
+output = condor_logs/$(dataset)_$(chunk_id).out
+error  = condor_logs/$(dataset)_$(chunk_id).err
+log    = condor_logs/analyze_chunks.log
+
+queue dataset, chunk_id from $(chunklist)

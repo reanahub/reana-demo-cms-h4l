@@ -1,0 +1,65 @@
+# Snakemake profile for running htcondor_direct.smk straight against CERN
+# HTCondor with `snakemake-executor-plugin-htcondor`, bypassing REANA
+# entirely. See HTCONDOR_DIRECT.md for setup and how to verify a job ran.
+#
+# Usage:
+#   snakemake -s htcondor_direct.smk --workflow-profile workflow/profiles/htcondor-direct --jobs 2 -p smoke
+executor: htcondor
+jobs: 2
+htcondor-jobdir: .snakemake/htcondor
+# The access point (lxplus, /afs) and the execution points share no working
+# directory: HTCondor gives each job /pool/condor/dir_NNN. Say so, instead of
+# letting Snakemake's default assumption of a shared filesystem stand -- under
+# that assumption it launches its remote instance with --shared-fs-usage
+# covering input-output, which then looks for `code`, `data` and
+# `workflow/calibration_file.txt` relative to the scratch directory, finds
+# nothing, and aborts before the rule's command runs at all.
+#
+# With this, the plugin builds transfer_input_files / transfer_output_files
+# and the remaps that put outputs back where Snakemake expects them. It also
+# means no job ever needs to *write* to AFS, which batch jobs have no
+# Kerberos token for.
+shared-fs-usage: none
+# CVMFS is genuinely identical everywhere, so never transfer anything under
+# it -- that includes the CMSSW image the pilot runs in.
+htcondor-shared-fs-prefixes: "/cvmfs"
+software-deployment-method: apptainer
+# The execution point has /usr/bin/apptainer and a full CVMFS mount including
+# unpacked.cern.ch (confirmed by the smoke rule), but the CMSSW image has to
+# be able to read the AOD index and the analyser source from /afs, and CMSSW
+# itself reaches into /cvmfs, so bind both explicitly rather than relying on
+# the node's apptainer defaults.
+#
+# /pool matters just as much, and less obviously. HTCondor's scratch directory
+# here is /pool/condor/dir_NNN, and apptainer normally binds the current
+# working directory into the container -- but it cannot create that mount
+# point inside a read-only unpacked CVMFS image, so it silently falls back to
+# another directory. The job then still succeeds (every other path in the rule
+# is absolute) while its output lands somewhere HTCondor never transfers back:
+# "Job was successful" followed by "missing locally, parent dir not present".
+apptainer-args: "--bind /cvmfs --bind /afs --bind /pool"
+default-resources:
+  htcondor_request_mem_mb: 2048
+  htcondor_request_disk_mb: 4096
+  # Do not let HTCondor copy the executable (our venv's python) into the
+  # execution point's scratch directory. The plugin never sets
+  # transfer_executable, so HTCondor's default of True applies and it copies
+  # the interpreter -- which then cannot start, because the LCG CVMFS python
+  # resolves libpython via a *relative* RPATH ($ORIGIN/../lib). Moved out of
+  # its own bin/ directory, $ORIGIN changes and the library is gone:
+  # "error while loading shared libraries: libpython3.13.so.1.0", exit 127.
+  #
+  # The plugin already submits with an absolute path as Cmd and an absolute
+  # Iwd, i.e. it assumes a shared filesystem, so the interpreter can simply be
+  # executed where it lies. The resource key is a generic passthrough:
+  # htcondor_submit_<key> lands in the submit description as <key>.
+  htcondor_submit_transfer_executable: "False"
+#
+# NOT set here, and not settable: htcondor_submit_should_transfer_files.
+# Running the job in Iwd would be the other way to reconcile the working
+# directory, but HTCondor rejects every spelling of it as
+# `invalid value ("NO") for ShouldTransferFiles` -- string values coming
+# through the htcondor_submit_* passthrough arrive quoted, and the enum wants
+# a bare keyword. ("False" above works only because it evaluates to a real
+# Python False, which is not a string.) Hence the explicit-transfer mode
+# below, which is what the plugin is designed around anyway.

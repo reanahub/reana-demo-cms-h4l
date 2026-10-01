@@ -1,0 +1,22 @@
+# Full-statistics variant of the analysis: every file of all six CMS collision
+# datasets, 12 306 AOD files, split into 43 chunks. Hours to run, as opposed to
+# the few minutes of the single-file example in reana.yaml, which stays the
+# entry point of this repository.
+#
+#   reana-client create -n level4 --file reana-level4.yaml
+#
+# See LEVEL4.md.
+version: 0.8.0
+inputs:
+  parameters:
+    input: workflow/input.yaml
+  directories:
+    - code
+    - data
+    - workflow
+outputs:
+  files:
+    - results/mass4l_combine_user.pdf
+workflow:
+  type: snakemake
+  file: workflow/Snakefile.level4

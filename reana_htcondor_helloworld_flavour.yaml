@@ -1,0 +1,24 @@
+# Byte-for-byte the working hello world example with exactly one addition:
+# htcondor_max_runtime. That field is the only thing every failing job of ours
+# had and the successful one did not, so this isolates it as a single variable.
+#
+# REANA turns a flavour name into MY.JobFlavour = "espresso" in the submit
+# description rather than into a number of seconds, so a job that specifies it
+# is matched against the farm differently from one that leaves it out.
+version: 0.8.0
+inputs:
+  files:
+    - helloworld.py
+outputs:
+  files:
+    - results/greetings.txt
+workflow:
+  type: serial
+  specification:
+    steps:
+      - name: reana_demo_helloworld_htcondorcern
+        environment: "python:2.7-slim"
+        compute_backend: htcondorcern
+        htcondor_max_runtime: "espresso"
+        commands:
+          - mkdir -p results && python helloworld.py | tee results/greetings.txt

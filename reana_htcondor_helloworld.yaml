@@ -1,0 +1,22 @@
+# The "hello world" example from the HTCondor page of the REANA documentation,
+# reproduced as literally as possible (same image, same compute_backend, same
+# step name). Our own jobs never start on the farm, so this establishes whether
+# REANA's own documented example works on this account -- if it does not, the
+# problem is clearly not in the analysis.
+# https://docs.reana.io/advanced-usage/compute-backends/htcondor/
+version: 0.8.0
+inputs:
+  files:
+    - helloworld.py
+outputs:
+  files:
+    - results/greetings.txt
+workflow:
+  type: serial
+  specification:
+    steps:
+      - name: reana_demo_helloworld_htcondorcern
+        environment: "python:2.7-slim"
+        compute_backend: htcondorcern
+        commands:
+          - mkdir -p results && python helloworld.py | tee results/greetings.txt

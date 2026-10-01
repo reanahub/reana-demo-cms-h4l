@@ -1,0 +1,22 @@
+# Smallest possible HTCondor job: no inputs, no CMSSW, no XRootD, a few
+# seconds of runtime. Its only purpose is to tell apart "HTCondor submission
+# works at all for this account" from "our analysis job is the problem", when
+# a real job sits in the queue without ever producing logs.
+version: 0.8.0
+outputs:
+  files:
+    - results/smoke.txt
+workflow:
+  type: serial
+  specification:
+    steps:
+      - name: smoke
+        environment: "/cvmfs/unpacked.cern.ch/registry.hub.docker.com/cmsopendata/cmssw_5_3_32:latest"
+        compute_backend: htcondorcern
+        # Required for a /cvmfs/unpacked.cern.ch/... image (singularity exec
+        # instead of Docker Universe); the job hangs without it.
+        unpacked_img: true
+        htcondor_max_runtime: "espresso"
+        commands:
+          - mkdir -p results && { hostname; date; id; echo "--- cvmfs ---"; ls
+            /cvmfs/; } 2>&1 | tee results/smoke.txt
